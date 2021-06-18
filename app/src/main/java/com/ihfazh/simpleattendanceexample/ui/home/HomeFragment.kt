@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.ihfazh.simpleattendanceexample.R
 import com.ihfazh.simpleattendanceexample.databinding.FragmentHomeBinding
 
@@ -47,7 +48,7 @@ class HomeFragment: Fragment() {
                         Toast.makeText(requireContext(), "Create event menu clicked", Toast.LENGTH_SHORT).show()
                     }
                     R.id.menu_student -> {
-                        Toast.makeText(requireContext(), "Create student menu clicked", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.home_to_student_view)
                     }
                 }
 
