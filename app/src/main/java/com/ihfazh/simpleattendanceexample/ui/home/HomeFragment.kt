@@ -12,7 +12,9 @@ import com.ihfazh.simpleattendanceexample.databinding.FragmentHomeBinding
 
 class HomeFragment: Fragment() {
     private var _binding: FragmentHomeBinding? = null
-    private val binding = _binding!!
+
+    private val binding
+        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
