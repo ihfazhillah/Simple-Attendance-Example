@@ -48,7 +48,8 @@ class HomeFragment: Fragment() {
                         Toast.makeText(requireContext(), "Create event menu clicked", Toast.LENGTH_SHORT).show()
                     }
                     R.id.menu_student -> {
-                        findNavController().navigate(R.id.home_to_student_view)
+                        val destination = HomeFragmentDirections.homeToStudentView()
+                        findNavController().navigate(destination)
                     }
                 }
 
