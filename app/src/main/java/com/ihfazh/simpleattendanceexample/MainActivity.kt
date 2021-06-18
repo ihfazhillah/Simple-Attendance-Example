@@ -16,33 +16,4 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.buttonMore.setOnClickListener {
-            openMoreMenu(it)
-        }
-        binding.eventsCard.setOnClickListener {
-            Toast.makeText(this, "Events Card Clicked", Toast.LENGTH_SHORT).show()
-        }
-        binding.studentsCard.setOnClickListener {
-            Toast.makeText(this, "Students Card Clicked", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun openMoreMenu(view: View) {
-        PopupMenu(this, view).apply {
-            inflate(R.menu.more_button)
-            setOnMenuItemClickListener { menuItem ->
-                when(menuItem.itemId){
-                    R.id.menu_event -> {
-                        Toast.makeText(this@MainActivity, "Create event menu clicked", Toast.LENGTH_SHORT).show()
-                    }
-                    R.id.menu_student -> {
-                        Toast.makeText(this@MainActivity, "Create student menu clicked", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                true
-            }
-            show()
-        }
-    }
 }

@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.ihfazh.simpleattendanceexample.R
 import com.ihfazh.simpleattendanceexample.databinding.FragmentHomeBinding
 
 class HomeFragment: Fragment() {
@@ -18,6 +21,38 @@ class HomeFragment: Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.buttonMore.setOnClickListener {
+            openMoreMenu(it)
+        }
+        binding.eventsCard.setOnClickListener {
+            Toast.makeText(requireContext(), "Events Card Clicked", Toast.LENGTH_SHORT).show()
+        }
+        binding.studentsCard.setOnClickListener {
+            Toast.makeText(requireContext(), "Students Card Clicked", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun openMoreMenu(view: View) {
+        PopupMenu(requireContext(), view).apply {
+            inflate(R.menu.more_button)
+            setOnMenuItemClickListener { menuItem ->
+                when(menuItem.itemId){
+                    R.id.menu_event -> {
+                        Toast.makeText(requireContext(), "Create event menu clicked", Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.menu_student -> {
+                        Toast.makeText(requireContext(), "Create student menu clicked", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                true
+            }
+            show()
+        }
     }
 
     override fun onDestroy() {
