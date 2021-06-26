@@ -13,6 +13,8 @@ import androidx.navigation.fragment.findNavController
 import com.ihfazh.simpleattendanceexample.databinding.FragmentStudentFormBinding
 import com.ihfazh.simpleattendanceexample.datasource.local.AppDatabase
 import com.ihfazh.simpleattendanceexample.datasource.local.models.StudentEntity
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.Executors
 
@@ -34,17 +36,20 @@ class StudentFormFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btnSave.setOnClickListener {
             val db = AppDatabase.getInstance(requireContext())
-            Executors.newSingleThreadExecutor().execute {
-                val id = UUID.randomUUID().toString()
-                db.studentDao().insert(
+            val id = UUID.randomUUID().toString()
+            db.studentDao()
+                .insert(
                     StudentEntity(
                         id,
                         binding.editFirstName.text.toString(),
                         binding.editLastName.text.toString()
                     )
                 )
-            }
-            findNavController().navigateUp()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    findNavController().navigateUp()
+                }
         }
     }
 
