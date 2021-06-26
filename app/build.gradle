@@ -56,4 +56,10 @@ dependencies {
     // room database
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+    // room rxjava support
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    // rxjava
+    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
+
 }
