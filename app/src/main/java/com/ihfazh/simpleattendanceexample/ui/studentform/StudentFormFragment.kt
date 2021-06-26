@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.arch.core.executor.TaskExecutor
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ihfazh.simpleattendanceexample.databinding.FragmentStudentFormBinding
@@ -25,6 +26,7 @@ class StudentFormFragment: Fragment() {
     private val binding
         get() = _binding!!
     private val compositeDisposable = CompositeDisposable()
+    private val viewModel: StudentFormViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +39,6 @@ class StudentFormFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(requireActivity().application)).get(StudentFormViewModel::class.java)
         binding.btnSave.setOnClickListener {
             val disposable = viewModel.addStudent(binding.editFirstName.text.toString(), binding.editLastName.text.toString())
                 .subscribe{findNavController().navigateUp()}
