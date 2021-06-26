@@ -14,6 +14,7 @@ import com.ihfazh.simpleattendanceexample.databinding.FragmentStudentFormBinding
 import com.ihfazh.simpleattendanceexample.datasource.local.AppDatabase
 import com.ihfazh.simpleattendanceexample.datasource.local.models.StudentEntity
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 import java.util.concurrent.Executors
@@ -22,6 +23,7 @@ class StudentFormFragment: Fragment() {
     private var _binding: FragmentStudentFormBinding? = null
     private val binding
         get() = _binding!!
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +39,7 @@ class StudentFormFragment: Fragment() {
         binding.btnSave.setOnClickListener {
             val db = AppDatabase.getInstance(requireContext())
             val id = UUID.randomUUID().toString()
-            db.studentDao()
+            val disposable = db.studentDao()
                 .insert(
                     StudentEntity(
                         id,
@@ -50,11 +52,18 @@ class StudentFormFragment: Fragment() {
                 .subscribe {
                     findNavController().navigateUp()
                 }
+            compositeDisposable.add(disposable)
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        compositeDisposable.dispose()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        compositeDisposable.clear()
     }
 }
