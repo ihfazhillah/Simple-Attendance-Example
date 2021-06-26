@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.arch.core.executor.TaskExecutor
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.ihfazh.simpleattendanceexample.databinding.FragmentStudentFormBinding
 import com.ihfazh.simpleattendanceexample.datasource.local.AppDatabase
@@ -36,22 +37,10 @@ class StudentFormFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(requireActivity().application)).get(StudentFormViewModel::class.java)
         binding.btnSave.setOnClickListener {
-            val db = AppDatabase.getInstance(requireContext())
-            val id = UUID.randomUUID().toString()
-            val disposable = db.studentDao()
-                .insert(
-                    StudentEntity(
-                        id,
-                        binding.editFirstName.text.toString(),
-                        binding.editLastName.text.toString()
-                    )
-                )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    findNavController().navigateUp()
-                }
+            val disposable = viewModel.addStudent(binding.editFirstName.text.toString(), binding.editLastName.text.toString())
+                .subscribe{findNavController().navigateUp()}
             compositeDisposable.add(disposable)
         }
     }
