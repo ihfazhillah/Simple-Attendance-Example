@@ -29,6 +29,7 @@ class StudentFormFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnSave.setOnClickListener {
+            it.isEnabled = false
             val disposable = viewModel.addStudent(binding.editFirstName.text.toString(), binding.editLastName.text.toString())
                 .subscribe{findNavController().navigateUp()}
             compositeDisposable.add(disposable)
