@@ -1,13 +1,20 @@
 package com.ihfazh.simpleattendanceexample.ui.studentform
 
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.arch.core.executor.TaskExecutor
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ihfazh.simpleattendanceexample.databinding.FragmentStudentFormBinding
+import com.ihfazh.simpleattendanceexample.datasource.local.AppDatabase
+import com.ihfazh.simpleattendanceexample.datasource.local.models.StudentEntity
+import java.util.*
+import java.util.concurrent.Executors
 
 class StudentFormFragment: Fragment() {
     private var _binding: FragmentStudentFormBinding? = null
@@ -26,7 +33,17 @@ class StudentFormFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnSave.setOnClickListener {
-            Toast.makeText(context, "Student will be saved into database.", Toast.LENGTH_SHORT).show()
+            val db = AppDatabase.getInstance(requireContext())
+            Executors.newSingleThreadExecutor().execute {
+                val id = UUID.randomUUID().toString()
+                db.studentDao().insert(
+                    StudentEntity(
+                        id,
+                        binding.editFirstName.text.toString(),
+                        binding.editLastName.text.toString()
+                    )
+                )
+            }
             findNavController().navigateUp()
         }
     }
