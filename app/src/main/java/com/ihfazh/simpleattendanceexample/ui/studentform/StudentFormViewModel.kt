@@ -2,7 +2,6 @@ package com.ihfazh.simpleattendanceexample.ui.studentform
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.navigation.fragment.findNavController
 import com.ihfazh.simpleattendanceexample.datasource.local.AppDatabase
 import com.ihfazh.simpleattendanceexample.datasource.local.models.StudentEntity
 import io.reactivex.Completable
